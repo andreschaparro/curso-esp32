@@ -243,7 +243,7 @@ static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_
             if (retries >= 5)
             {
                 ESP_LOGI(TAG, "Failed to connect with provisioned AP, reseting provisioned credentials");
-                wifi_prov_mgr_reset_sm_state_on_failure();
+                ESP_ERROR_CHECK(wifi_prov_mgr_reset_sm_state_on_failure());
                 retries = 0;
             }
             break;
@@ -327,7 +327,7 @@ static void get_device_service_name(char *service_name, size_t max)
     // Genera un device name distinto para cada dispositivo porque el resultado depende de la MAC
     uint8_t eth_mac[6];
     const char *ssid_prefix = "PROV_";
-    esp_wifi_get_mac(WIFI_IF_STA, eth_mac);
+    ESP_ERROR_CHECK(esp_wifi_get_mac(WIFI_IF_STA, eth_mac));
     snprintf(service_name, max, "%s%02X%02X%02X",
              ssid_prefix, eth_mac[3], eth_mac[4], eth_mac[5]);
 }
@@ -354,6 +354,6 @@ static void wifi_prov_print_qr(const char *name, const char *username, const cha
     }
     ESP_LOGI(TAG, "Scan this QR code from the provisioning application for Provisioning.");
     esp_qrcode_config_t cfg = ESP_QRCODE_CONFIG_DEFAULT();
-    esp_qrcode_generate(&cfg, payload);
+    ESP_ERROR_CHECK(esp_qrcode_generate(&cfg, payload));
     ESP_LOGI(TAG, "If QR code is not visible, copy paste the below URL in a browser.\n%s?data=%s", QRCODE_BASE_URL, payload);
 }

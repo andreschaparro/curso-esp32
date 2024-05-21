@@ -1,0 +1,4 @@
+key,type,encoding,value
+prov_sec2,namespace,,
+username,data,string,wifiprov
+pwd,data,string,abcd1234
